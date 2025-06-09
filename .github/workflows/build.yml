@@ -1,0 +1,23 @@
+name: Build slowhttptest
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y autoconf automake libtool libssl-dev
+    - name: Build
+      run: |
+        ./autogen.sh
+        ./configure
+        make
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: slowhttptest
+        path: src/slowhttptest
